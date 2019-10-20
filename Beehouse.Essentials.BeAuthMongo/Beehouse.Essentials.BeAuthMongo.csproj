@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Beehouse.Essentials.BeAuth\Beehouse.Essentials.BeAuth.csproj" />
+    <ProjectReference Include="..\Beehouse.Essentials.Mongo\Beehouse.Essentials.Mongo.csproj" />
+  </ItemGroup>
+
+</Project>

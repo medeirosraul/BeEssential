@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BeehouseFramework\Beehouse.Essentials\Beehouse.Essentials.csproj" />
+    <ProjectReference Include="..\Beehouse.Essentials.BeAuth\Beehouse.Essentials.BeAuth.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.10.0-beta1" />
+  </ItemGroup>
+
+</Project>

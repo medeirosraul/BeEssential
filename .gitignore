@@ -1,0 +1,11 @@
+
+.vs/*
+Beehouse.Essentials.BeAuth/bin/*
+Beehouse.Essentials.BeAuth/obj/*
+Beehouse.Essentials.BeAuthMongo/bin/*
+Beehouse.Essentials.BeAuthMongo/obj/*
+Beehouse.Essentials.Mongo/bin/*
+Beehouse.Essentials.Mongo/obj/*
+Beehouse.Essentials/.vs/*
+Beehouse.Essentials/bin/*
+Beehouse.Essentials/obj/*

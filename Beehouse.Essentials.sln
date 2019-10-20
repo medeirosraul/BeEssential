@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29319.158
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beehouse.Essentials", "Beehouse.Essentials\Beehouse.Essentials.csproj", "{A479B559-B6AD-4934-A748-FC9165C5BE66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beehouse.Essentials.Mongo", "Beehouse.Essentials.Mongo\Beehouse.Essentials.Mongo.csproj", "{B962052B-829B-4104-90C0-9E5E2D0FB763}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beehouse.Essentials.BeAuth", "Beehouse.Essentials.BeAuth\Beehouse.Essentials.BeAuth.csproj", "{2E33510F-3015-4825-BC06-F3C84595AC24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Beehouse.Essentials.BeAuthMongo", "Beehouse.Essentials.BeAuthMongo\Beehouse.Essentials.BeAuthMongo.csproj", "{2C305A9B-964F-4F98-B542-9271BFF75EDF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A479B559-B6AD-4934-A748-FC9165C5BE66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A479B559-B6AD-4934-A748-FC9165C5BE66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A479B559-B6AD-4934-A748-FC9165C5BE66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A479B559-B6AD-4934-A748-FC9165C5BE66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B962052B-829B-4104-90C0-9E5E2D0FB763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B962052B-829B-4104-90C0-9E5E2D0FB763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B962052B-829B-4104-90C0-9E5E2D0FB763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B962052B-829B-4104-90C0-9E5E2D0FB763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E33510F-3015-4825-BC06-F3C84595AC24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E33510F-3015-4825-BC06-F3C84595AC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E33510F-3015-4825-BC06-F3C84595AC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E33510F-3015-4825-BC06-F3C84595AC24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C305A9B-964F-4F98-B542-9271BFF75EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C305A9B-964F-4F98-B542-9271BFF75EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C305A9B-964F-4F98-B542-9271BFF75EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C305A9B-964F-4F98-B542-9271BFF75EDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04830202-F9E5-4121-AC0A-DA77F87E8C83}
+	EndGlobalSection
+EndGlobal
