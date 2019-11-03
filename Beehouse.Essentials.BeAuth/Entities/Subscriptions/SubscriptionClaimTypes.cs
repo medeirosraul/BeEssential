@@ -6,7 +6,8 @@ namespace Beehouse.Essentials.BeAuth.Entities.Subscriptions
 {
     public static class SubscriptionClaimTypes
     {
-        public const string Owner = "beehouse/subscriptions/owner";
-        public const string User = "beehouse/subscriptions/user";
+        public const string Owner = "BeAuth.Subscription.Owner";
+        public const string User = "BeAuth.Subscription.User";
+        public const string Product = "BeAuth.Subscription.Product";
     }
 }
