@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Beehouse.Essentials.Repositories
 {
-    public interface IRepository<TQueryable, TEntity>
+    public interface IRepositoryBase<TQueryable, TEntity>
         where TQueryable:IQueryable<TEntity>
         where TEntity:Entity
     {

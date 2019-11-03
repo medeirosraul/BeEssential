@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beehouse.Essentials.BeAuth.Entities
+﻿namespace Beehouse.Essentials.BeAuthMongo.Entities
 {
     public class EntityIdentity
     {

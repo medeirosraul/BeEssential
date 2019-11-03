@@ -1,11 +1,6 @@
 ﻿using Beehouse.Essentials.BeAuth;
-using Beehouse.Essentials.BeAuthMongo.Services;
-using Beehouse.Essentials.Repositories;
-using Beehouse.Essentials.Services;
+using Beehouse.Essentials.BeAuthMongo.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Beehouse.Essentials.BeAuthMongo
 {
@@ -13,7 +8,9 @@ namespace Beehouse.Essentials.BeAuthMongo
     {
         public static IServiceCollection AddBeeAuthMongo(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IServiceBase<,,>), typeof(IdentifiableService<>));
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(Services.IService<>), typeof(Services.Service<>));
             services.AddBeAuth();
 
             return services;

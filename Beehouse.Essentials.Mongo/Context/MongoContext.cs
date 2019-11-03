@@ -29,7 +29,7 @@ namespace Beehouse.Essentials.Mongo.Context
 
         public IMongoCollection<TDocument> Collection<TDocument>() where TDocument : Entity
         {
-            var name = typeof(TDocument).GetCustomAttribute<BsonDiscriminatorAttribute>().Discriminator;
+            var name = typeof(TDocument).GetCustomAttribute<BsonDiscriminatorAttribute>()?.Discriminator;
             return Collection<TDocument>(name);
         }
     }

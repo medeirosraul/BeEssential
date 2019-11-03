@@ -19,8 +19,7 @@ namespace Beehouse.Essentials.BeAuth.Services
             subscription ??= user.Subscriptions.FirstOrDefault();
 
             // Issue
-            var identity = new ClaimsIdentity();
-
+            var identity = new ClaimsIdentity("BeAuthIdentity");
             identity.AddClaim(new Claim(SubscriptionClaimTypes.User, subscription.User));
             identity.AddClaim(new Claim(SubscriptionClaimTypes.Owner, subscription.Owner));
 

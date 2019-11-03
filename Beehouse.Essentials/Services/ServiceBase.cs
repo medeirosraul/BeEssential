@@ -15,7 +15,7 @@ namespace Beehouse.Essentials.Services
     public class ServiceBase<TEntity, TRepository, TQueryable> : IServiceBase<TEntity, TRepository, TQueryable>
         where TEntity : Entity
         where TQueryable : IQueryable<TEntity>
-        where TRepository: IRepository<TQueryable, TEntity>
+        where TRepository: IRepositoryBase<TQueryable, TEntity>
     {
         protected readonly TRepository Repository;
 

@@ -1,7 +1,9 @@
 ﻿using Beehouse.Essentials.Entities;
 using Beehouse.Essentials.Mongo.Context;
 using Beehouse.Essentials.Mongo.Repositories;
+using Beehouse.Essentials.Mongo.Services;
 using Beehouse.Essentials.Repositories;
+using Beehouse.Essentials.Services;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization;
 using System;
@@ -16,8 +18,10 @@ namespace Beehouse.Essentials.Mongo
         {
             services.Configure(options);
 
-            services.AddScoped(typeof (IRepository<,>), typeof (MongoRepository<>));
+            services.AddScoped(typeof (IRepositoryBase<,>), typeof (MongoRepository<>));
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+            services.AddScoped(typeof(IServiceBase<,,>), typeof(MongoService<>));
+            services.AddScoped(typeof(IMongoService<>), typeof(MongoService<>));
 
             services.AddSingleton<MongoContext>();
 
