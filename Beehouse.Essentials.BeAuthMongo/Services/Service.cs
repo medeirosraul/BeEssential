@@ -1,14 +1,12 @@
 ﻿using Beehouse.Essentials.BeAuth.Entities.Subscriptions;
 using Beehouse.Essentials.BeAuthMongo.Entities;
 using Beehouse.Essentials.BeAuthMongo.Repositories;
-using Beehouse.Essentials.Mongo.Repositories;
 using Beehouse.Essentials.Mongo.Services;
-using Beehouse.Essentials.Services;
+using Beehouse.Essentials.Util;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver.Linq;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -19,7 +17,8 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
         where TIdentifiableEntity:IdentifiableEntity
     {
         private readonly HttpContext _httpContext;
-        private EntityIdentity _identity;
+        private readonly EntityIdentity _identity;
+        private readonly bool _isOwner;
 
         public Service(IHttpContextAccessor httpContextAccessor, IRepository<TIdentifiableEntity> repository):base(repository)
         {
@@ -34,12 +33,30 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
                 CreatedBy = user.FindFirst(SubscriptionClaimTypes.User).Value,
                 OwnedBy = user.FindFirst(SubscriptionClaimTypes.Owner).Value
             };
+
+            // Check Owner
+            _isOwner = _identity.CreatedBy == _identity.OwnedBy;
         }
 
         public override async Task<TIdentifiableEntity> Insert(TIdentifiableEntity entity)
         {
             entity.Identity = _identity;
             return await base.Insert(entity);
+        }
+
+        public override async Task<ListResult<TIdentifiableEntity>> Get()
+        {
+            return await Get(null);
+        }
+
+        public override async Task<ListResult<TIdentifiableEntity>> Get(IMongoQueryable<TIdentifiableEntity> query)
+        {
+            query ??= Repository.AsQueryable();
+
+            if (_isOwner) query = query.Where(p => p.Identity.OwnedBy == _identity.OwnedBy);
+            else query = query.Where(p => p.Identity.CreatedBy == _identity.CreatedBy);
+
+            return await base.Get(query);
         }
 
         private void Stamp(IdentifiableEntity entity)
