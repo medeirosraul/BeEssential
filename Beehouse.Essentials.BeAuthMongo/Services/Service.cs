@@ -2,6 +2,7 @@
 using Beehouse.Essentials.BeAuthMongo.Entities;
 using Beehouse.Essentials.BeAuthMongo.Repositories;
 using Beehouse.Essentials.Mongo.Services;
+using Beehouse.Essentials.Types;
 using Beehouse.Essentials.Util;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver.Linq;
@@ -44,12 +45,12 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
             return await base.Insert(entity);
         }
 
-        public override async Task<ListResult<TIdentifiableEntity>> Get()
+        public override async Task<Paged<TIdentifiableEntity>> Get()
         {
             return await Get(null);
         }
 
-        public override async Task<ListResult<TIdentifiableEntity>> Get(IMongoQueryable<TIdentifiableEntity> query)
+        public override async Task<Paged<TIdentifiableEntity>> Get(IMongoQueryable<TIdentifiableEntity> query)
         {
             query ??= Repository.AsQueryable();
 

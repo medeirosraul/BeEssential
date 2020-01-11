@@ -1,13 +1,8 @@
 ﻿using Beehouse.Essentials.Entities;
 using Beehouse.Essentials.Repositories;
-using Beehouse.Essentials.Util;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+using Beehouse.Essentials.Types;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Beehouse.Essentials.Services
@@ -30,11 +25,11 @@ namespace Beehouse.Essentials.Services
 
         public virtual async Task Delete(string id, bool logic = false) => await Repository.Delete(id, logic);
 
-        public virtual async Task<ListResult<TEntity>> Get() => await Repository.Get();
+        public virtual async Task<Paged<TEntity>> Get() => await Repository.Get();
 
-        public virtual async Task<ListResult<TEntity>> Get(TQueryable query) => await Repository.Get(query);
+        public virtual async Task<Paged<TEntity>> Get(TQueryable query) => await Repository.Get(query);
 
-        public virtual async Task<ListResult<TEntity>> Get(int page, int limit, TQueryable query) => await Repository.Get(page, limit, query);
+        public virtual async Task<Paged<TEntity>> Get(int page, int limit, TQueryable query) => await Repository.Get(page, limit, query);
        
         public virtual async Task<TEntity> Insert(TEntity entity)
         {

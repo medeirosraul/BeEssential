@@ -1,7 +1,7 @@
 ﻿using Beehouse.Essentials.Mongo.Context;
 using Beehouse.Essentials.Mongo.Entities;
-using Beehouse.Essentials.Repositories;
-using Beehouse.Essentials.Util;
+using Beehouse.Essentials.Types;
+using Beehouse.Essentials.Types.Extensions;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.Linq;
@@ -33,48 +33,52 @@ namespace Beehouse.Essentials.Mongo.Repositories
         public async Task<bool> Exists(string id)
         {
             var query = AsQueryable();
-            return await query.AnyAsync(p => p.Id == id);
+            return await query.AnyAsync(p => p.Id == id && !p.Deleted);
         }
 
-        public async Task<ListResult<TDocument>> Get()
+        public async Task<Paged<TDocument>> Get()
         {
-            var result = new ListResult<TDocument>
-            {
-                Page = 1,
-                List = await AsQueryable().ToListAsync()
-            };
-
-            result.Count = result.List.Count;
-            result.Limit = result.List.Count;
-
-            return result;
+            return await Get(AsQueryable());
         }
 
-        public async Task<ListResult<TDocument>> Get(IMongoQueryable<TDocument> query)
+        public async Task<Paged<TDocument>> Get(IMongoQueryable<TDocument> query)
         {
-            if (query == null) query = AsQueryable();
-            var result = new ListResult<TDocument>
-            {
-                Page = 1,
-                List = await query.ToListAsync()
-            };
-
-            result.Count = result.List.Count;
-            result.Limit = result.List.Count;
-
-            return result;
+            return await Get(1, 0, query);
         }
 
-        public async Task<ListResult<TDocument>> Get(int page, int limit, IMongoQueryable<TDocument> query)
+        /// <summary>
+        /// Return an object that contains paged result for a query
+        /// </summary>
+        /// <param name="page">Page</param>
+        /// <param name="limit">Limit per page</param>
+        /// <param name="query">Query to apply</param>
+        /// <returns></returns>
+        public async Task<Paged<TDocument>> Get(int page, int limit, IMongoQueryable<TDocument> query)
         {
-            if (query == null) query = AsQueryable();
-            return new ListResult<TDocument>
+            // Define a query
+            query ??= AsQueryable();
+
+            // Apply some filters
+            query = query.Where(p => !p.Deleted);
+
+            // Get count
+            var total = await query.CountAsync();
+
+            // Create result
+            var result = new Paged<TDocument>
             {
+                Total = total,
                 Page = page,
-                Limit = limit,
-                Count = await query.CountAsync(),
-                List = await query.ToListAsync()
+                Limit = limit
             };
+
+            // Return result
+            if (total == 0) return result;
+
+            query = limit == 0 ? query : query.Skip((page - 1) * limit).Take(limit);
+            result.AddRange(await query.ToListAsync());
+
+            return result;
         }
 
         public async Task<TDocument> Insert(TDocument entity)
@@ -84,7 +88,7 @@ namespace Beehouse.Essentials.Mongo.Repositories
         }
         public async Task<TDocument> GetById(string id)
         {
-            return await AsQueryable().FirstOrDefaultAsync(p => p.Id == id);
+            return await AsQueryable().FirstOrDefaultAsync(p => p.Id == id && !p.Deleted);
         }
 
         public async Task<TDocument> Update(TDocument entity)
