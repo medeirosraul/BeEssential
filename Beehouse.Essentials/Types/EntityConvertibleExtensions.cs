@@ -7,7 +7,7 @@ namespace Beehouse.Essentials.Types
     {
         public static TConvertible FromEntity<TConvertible, TEntity>(this TConvertible target, TEntity source)
             where TConvertible : EntityConvertible<TEntity>
-            where TEntity : Entity
+            where TEntity : BaseEntity
         {
             target.FromEntityExpression.Invoke(source);
             return target;

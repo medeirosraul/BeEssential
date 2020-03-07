@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Beehouse.Essentials.Services
 {
-    public class ServiceBase<TEntity, TRepository, TQueryable> : IServiceBase<TEntity, TRepository, TQueryable>
-        where TEntity : Entity
+    public class BaseService<TEntity, TRepository, TQueryable> : IBaseService<TEntity, TRepository, TQueryable>
+        where TEntity : BaseEntity
         where TQueryable : IQueryable<TEntity>
-        where TRepository: IRepositoryBase<TQueryable, TEntity>
+        where TRepository: IBaseRepository<TQueryable, TEntity>
     {
         protected readonly TRepository Repository;
 
-        public ServiceBase(TRepository repository)
+        public BaseService(TRepository repository)
         {
             Repository = repository;
         }

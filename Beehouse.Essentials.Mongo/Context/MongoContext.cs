@@ -2,11 +2,7 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Beehouse.Essentials.Mongo.Context
@@ -31,12 +27,12 @@ namespace Beehouse.Essentials.Mongo.Context
             }
         }
 
-        public IMongoCollection<TDocument> Collection<TDocument>(string name) where TDocument : Entity
+        public IMongoCollection<TDocument> Collection<TDocument>(string name) where TDocument : BaseEntity
         {
             return _database.GetCollection<TDocument>(name);
         }
 
-        public IMongoCollection<TDocument> Collection<TDocument>() where TDocument : Entity
+        public IMongoCollection<TDocument> Collection<TDocument>() where TDocument : BaseEntity
         {
             // Try get name.
             var name = typeof(TDocument).GetCustomAttribute<BsonDiscriminatorAttribute>()?.Discriminator;

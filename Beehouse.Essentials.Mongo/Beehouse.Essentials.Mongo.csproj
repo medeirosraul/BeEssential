@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BeehouseFramework\Beehouse.Essentials\Beehouse.Essentials.csproj" />
-    <ProjectReference Include="..\Beehouse.Essentials.BeAuth\Beehouse.Essentials.BeAuth.csproj" />
   </ItemGroup>
 
   <ItemGroup>

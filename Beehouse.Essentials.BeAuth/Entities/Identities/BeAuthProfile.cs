@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Beehouse.Essentials.BeAuth.Entities.Identities
 {
-    public class BeAuthProfile:Entity
+    public class BeAuthProfile:BaseEntity
     {
         public string FirstName { get; set; }
         public string FullName { get; set; }

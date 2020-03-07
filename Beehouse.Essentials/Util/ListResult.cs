@@ -11,7 +11,7 @@ namespace Beehouse.Essentials.Util
 {
     public class ListResult<T>
     {
-        private ServiceBase<Entity, IRepositoryBase<IQueryable<Entity>, Entity>, IQueryable<Entity>> _service;
+        private BaseService<BaseEntity, IBaseRepository<IQueryable<BaseEntity>, BaseEntity>, IQueryable<BaseEntity>> _service;
         private Func<object, T> _translator;
         private Func<ListResult<T>> _fill;
 

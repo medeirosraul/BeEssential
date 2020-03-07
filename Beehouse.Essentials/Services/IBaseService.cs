@@ -1,17 +1,11 @@
 ﻿using Beehouse.Essentials.Entities;
 using Beehouse.Essentials.Types;
-using Beehouse.Essentials.Util;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Beehouse.Essentials.Repositories
+namespace Beehouse.Essentials.Services
 {
-    public interface IRepositoryBase<TQueryable, TEntity>
-        where TQueryable:IQueryable<TEntity>
-        where TEntity:Entity
+    public interface IBaseService<TEntity, TRepository, TQueryable> where TEntity : BaseEntity
     {
-        TQueryable AsQueryable();
-        TQueryable AsQueryable(bool tracking);
         Task<bool> Exists(string id);
         Task<TEntity> GetById(string id);
         Task<Paged<TEntity>> Get();

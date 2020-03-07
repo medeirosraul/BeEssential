@@ -1,9 +1,9 @@
 ﻿using Beehouse.Essentials.BeAuth.Entities.Subscriptions;
 using Beehouse.Essentials.BeAuthMongo.Entities;
 using Beehouse.Essentials.BeAuthMongo.Repositories;
-using Beehouse.Essentials.Mongo.Services;
+using Beehouse.Essentials.Mongo.Repositories;
+using Beehouse.Essentials.Services;
 using Beehouse.Essentials.Types;
-using Beehouse.Essentials.Util;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver.Linq;
 using System;
@@ -13,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace Beehouse.Essentials.BeAuthMongo.Services
 {
-    public class Service<TIdentifiableEntity>
-        : MongoService<TIdentifiableEntity>, IService<TIdentifiableEntity>
-        where TIdentifiableEntity:IdentifiableEntity
+    public class Service<TIdentifiable> : BaseService<TIdentifiable, IMongoRepository<TIdentifiable>, IMongoQueryable<TIdentifiable>>, IService<TIdentifiable>
+        where TIdentifiable : Identifiable
     {
         private readonly HttpContext _httpContext;
         private readonly EntityIdentity _identity;
         private readonly bool _isOwner;
 
-        public Service(IHttpContextAccessor httpContextAccessor, IRepository<TIdentifiableEntity> repository):base(repository)
+        public Service(IHttpContextAccessor httpContextAccessor, IMongoRepository<TIdentifiable> repository):base(repository)
         {
             _httpContext = httpContextAccessor.HttpContext;
 
@@ -39,18 +38,18 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
             _isOwner = _identity.CreatedBy == _identity.OwnedBy;
         }
 
-        public override async Task<TIdentifiableEntity> Insert(TIdentifiableEntity entity)
+        public override async Task<TIdentifiable> Insert(TIdentifiable entity)
         {
             entity.Identity = _identity;
             return await base.Insert(entity);
         }
 
-        public override async Task<Paged<TIdentifiableEntity>> Get()
+        public override async Task<Paged<TIdentifiable>> Get()
         {
             return await Get(null);
         }
 
-        public override async Task<Paged<TIdentifiableEntity>> Get(IMongoQueryable<TIdentifiableEntity> query)
+        public override async Task<Paged<TIdentifiable>> Get(IMongoQueryable<TIdentifiable> query)
         {
             query ??= Repository.AsQueryable();
 
@@ -60,7 +59,7 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
             return await base.Get(query);
         }
 
-        private void Stamp(IdentifiableEntity entity)
+        private void Stamp(Identifiable entity)
         {
 
         }
