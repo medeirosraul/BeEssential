@@ -25,11 +25,11 @@ namespace Beehouse.Essentials.Services
 
         public virtual async Task Delete(string id, bool logic = false) => await Repository.Delete(id, logic);
 
-        public virtual async Task<Paged<TEntity>> Get() => await Repository.Get();
+        public virtual async Task<PagedList<TEntity>> Get() => await Repository.Get();
 
-        public virtual async Task<Paged<TEntity>> Get(TQueryable query) => await Repository.Get(query);
+        public virtual async Task<PagedList<TEntity>> Get(TQueryable query) => await Repository.Get(query);
 
-        public virtual async Task<Paged<TEntity>> Get(int page, int limit, TQueryable query) => await Repository.Get(page, limit, query);
+        public virtual async Task<PagedList<TEntity>> Get(int page, int limit, TQueryable query) => await Repository.Get(page, limit, query);
        
         public virtual async Task<TEntity> Insert(TEntity entity)
         {

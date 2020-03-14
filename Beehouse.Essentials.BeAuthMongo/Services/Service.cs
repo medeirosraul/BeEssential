@@ -1,6 +1,5 @@
 ﻿using Beehouse.Essentials.BeAuth.Entities.Subscriptions;
 using Beehouse.Essentials.BeAuthMongo.Entities;
-using Beehouse.Essentials.BeAuthMongo.Repositories;
 using Beehouse.Essentials.Mongo.Repositories;
 using Beehouse.Essentials.Services;
 using Beehouse.Essentials.Types;
@@ -44,12 +43,12 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
             return await base.Insert(entity);
         }
 
-        public override async Task<Paged<TIdentifiable>> Get()
+        public override async Task<PagedList<TIdentifiable>> Get()
         {
             return await Get(null);
         }
 
-        public override async Task<Paged<TIdentifiable>> Get(IMongoQueryable<TIdentifiable> query)
+        public override async Task<PagedList<TIdentifiable>> Get(IMongoQueryable<TIdentifiable> query)
         {
             query ??= Repository.AsQueryable();
 

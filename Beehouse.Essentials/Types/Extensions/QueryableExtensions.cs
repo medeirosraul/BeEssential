@@ -9,33 +9,33 @@ namespace Beehouse.Essentials.Types.Extensions
 {
     public static class QueryableExtensions
     {
-        public static async Task<Paged<T>> ToPagedAsync<T>(this IQueryable<T> queryable) where T: class
+        public static async Task<PagedList<T>> ToPagedAsync<T>(this IQueryable<T> queryable) where T: class
         {
-            var paged = new Paged<T>
+            var paged = new PagedList<T>
             {
-                Total = await queryable.CountAsync(),
-                Page = 1
+                TotalCount = await queryable.CountAsync(),
+                PageIndex = 1
             };
 
-            paged.Limit = paged.Total;
+            paged.PageSize = paged.TotalCount;
           
-            if (paged.Total == 0) return paged;
+            if (paged.TotalCount == 0) return paged;
 
             paged.AddRange(await queryable.ToListAsync());
 
             return paged;
         }
 
-        public static async Task<Paged<T>> ToPagedAsync<T>(this IQueryable<T> queryable, int page, int limit) where T: class
+        public static async Task<PagedList<T>> ToPagedAsync<T>(this IQueryable<T> queryable, int page, int limit) where T: class
         {
-            var paged = new Paged<T>
+            var paged = new PagedList<T>
             {
-                Total = await queryable.CountAsync(),
-                Page = page,
-                Limit = limit
+                TotalCount = await queryable.CountAsync(),
+                PageIndex = page,
+                PageSize = limit
             };
 
-            if (paged.Total == 0) return paged;
+            if (paged.TotalCount == 0) return paged;
 
             paged.AddRange(await queryable.Skip((page - 1) * limit).Take(limit).ToListAsync());
 

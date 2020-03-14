@@ -45,14 +45,14 @@ namespace Beehouse.Essentials.Repositories
         /// Get a list of entities
         /// </summary>
         /// <returns>Paged list of entities</returns>
-        Task<Paged<TEntity>> Get();
+        Task<PagedList<TEntity>> Get();
 
         /// <summary>
         /// Get a list of entities with query
         /// </summary>
         /// <param name="query">Query filter</param>
         /// <returns>Paged list of entities</returns>
-        Task<Paged<TEntity>> Get(TQueryable query);
+        Task<PagedList<TEntity>> Get(TQueryable query);
 
         /// <summary>
         /// Get a list of entities with query and page and limit per page
@@ -61,7 +61,7 @@ namespace Beehouse.Essentials.Repositories
         /// <param name="limit">Limit per page</param>
         /// <param name="query">Query filter</param>
         /// <returns>Paged list of entities</returns>
-        Task<Paged<TEntity>> Get(int page, int limit, TQueryable query);
+        Task<PagedList<TEntity>> Get(int page, int limit, TQueryable query);
 
         /// <summary>
         /// Insert a entity in database

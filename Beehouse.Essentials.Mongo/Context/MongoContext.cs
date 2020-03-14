@@ -1,7 +1,11 @@
 ﻿using Beehouse.Essentials.Entities;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Configuration;
+using MongoDB.Driver.Core.Events;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -17,7 +21,14 @@ namespace Beehouse.Essentials.Mongo.Context
         public MongoContext(IOptionsMonitor<BeehouseMongoOptions> optionsAccessor)
         {
             _options = optionsAccessor.CurrentValue;
-            _client = new MongoClient(_options.MongoConnectionString);
+            var mongoConnectionUrl = new MongoUrl(_options.MongoConnectionString);
+            var mongoClientSettings = MongoClientSettings.FromUrl(mongoConnectionUrl);
+            mongoClientSettings.ClusterConfigurator = cb => {
+                cb.Subscribe<CommandStartedEvent>(e => {
+                    Debug.WriteLine($"{e.CommandName} - {e.Command.ToJson()}");
+                });
+            };
+            _client = new MongoClient(mongoClientSettings);
             _database = _client.GetDatabase(_options.DatabaseName);
 
             if (_firstRun)

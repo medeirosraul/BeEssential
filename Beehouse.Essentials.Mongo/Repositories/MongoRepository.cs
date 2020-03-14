@@ -3,6 +3,8 @@ using Beehouse.Essentials.Mongo.Entities;
 using Beehouse.Essentials.Types;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,11 +18,19 @@ namespace Beehouse.Essentials.Mongo.Repositories
     {
         private readonly MongoContext _context;
         private readonly IMongoCollection<TDocument> _collection;
+        private readonly IEnumerable<string> _updateExcludedProperties;
 
         public MongoRepository(MongoContext context)
         {
             _context = context;
             _collection = _context.Collection<TDocument>();
+            _updateExcludedProperties = new List<string>
+            {
+                "Id",
+                "CreatedAt",
+                "Identity",
+                "Stamps"
+            };
         }
 
         /// <summary>
@@ -57,7 +67,7 @@ namespace Beehouse.Essentials.Mongo.Repositories
         /// Get a paged list of entities
         /// </summary>
         /// <returns>Paged list of entities</returns>
-        public async Task<Paged<TDocument>> Get()
+        public async Task<PagedList<TDocument>> Get()
         {
             return await Get(AsQueryable());
         }
@@ -67,7 +77,7 @@ namespace Beehouse.Essentials.Mongo.Repositories
         /// </summary>
         /// <param name="query">Query filter</param>
         /// <returns>Paged list of entities</returns>
-        public async Task<Paged<TDocument>> Get(IMongoQueryable<TDocument> query)
+        public async Task<PagedList<TDocument>> Get(IMongoQueryable<TDocument> query)
         {
             return await Get(1, 0, query);
         }
@@ -79,7 +89,7 @@ namespace Beehouse.Essentials.Mongo.Repositories
         /// <param name="limit">Limit per page</param>
         /// <param name="query">Query to apply</param>
         /// <returns></returns>
-        public async Task<Paged<TDocument>> Get(int page, int limit, IMongoQueryable<TDocument> query)
+        public async Task<PagedList<TDocument>> Get(int page, int limit, IMongoQueryable<TDocument> query)
         {
             // Define a query
             query ??= AsQueryable();
@@ -87,15 +97,17 @@ namespace Beehouse.Essentials.Mongo.Repositories
             // Apply main filters
             query = query.Where(p => !p.Deleted);
 
+            // 
+
             // Get count
             var total = await query.CountAsync();
 
             // Create result
-            var result = new Paged<TDocument>
+            var result = new PagedList<TDocument>
             {
-                Total = total,
-                Page = page,
-                Limit = limit
+                TotalCount = total,
+                PageIndex = page,
+                PageSize = limit
             };
 
             // Return result
@@ -135,8 +147,18 @@ namespace Beehouse.Essentials.Mongo.Repositories
         /// <returns>Updated entity</returns>
         public async Task<TDocument> Update(TDocument entity)
         {
+            var type = typeof(TDocument);
+            var properties = type.GetProperties();
+            var elegibleProperties = properties.Where(p => !_updateExcludedProperties.Any(x => x == p.Name)).ToList();
+
             var filter = Builders<TDocument>.Filter.Eq(p => p.Id, entity.Id);
-            await _collection.ReplaceOneAsync(filter, entity);
+            var update = Builders<TDocument>.Update.Set(p => p.ModifiedAt, DateTime.Now);
+            elegibleProperties.ForEach(property =>
+            {
+                update = update.Set(property.Name, property.GetValue(entity));
+            });
+
+            await _collection.UpdateOneAsync(filter, update);
 
             return entity;
         }
