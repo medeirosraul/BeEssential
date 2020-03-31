@@ -1,7 +1,9 @@
 ﻿using Beehouse.Essentials.Entities;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Configuration;
 using MongoDB.Driver.Core.Events;
@@ -20,6 +22,11 @@ namespace Beehouse.Essentials.Mongo.Context
 
         public MongoContext(IOptionsMonitor<BeehouseMongoOptions> optionsAccessor)
         {
+            // Register type especific serialization
+            BsonSerializer.RegisterSerializer(typeof(decimal), new DecimalSerializer(BsonType.Decimal128));
+            BsonSerializer.RegisterSerializer(typeof(decimal?), new NullableSerializer<decimal>(new DecimalSerializer(BsonType.Decimal128)));
+
+            // Context instance
             _options = optionsAccessor.CurrentValue;
             var mongoConnectionUrl = new MongoUrl(_options.MongoConnectionString);
             var mongoClientSettings = MongoClientSettings.FromUrl(mongoConnectionUrl);
