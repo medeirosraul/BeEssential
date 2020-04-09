@@ -58,6 +58,16 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
             return await base.Get(query);
         }
 
+        public override async Task<PagedList<TIdentifiable>> Get(int page, int limit, IMongoQueryable<TIdentifiable> query)
+        {
+            query ??= Repository.AsQueryable();
+
+            if (_isOwner) query = query.Where(p => p.Identity.OwnedBy == _identity.OwnedBy);
+            else query = query.Where(p => p.Identity.CreatedBy == _identity.CreatedBy);
+
+            return await base.Get(page, limit, query);
+        }
+
         private void Stamp(Identifiable entity)
         {
 
@@ -65,7 +75,7 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
 
         private ClaimsIdentity GetBeAuthIdentity()
         {
-            var user = _httpContext.User.Identities.FirstOrDefault(p => p.AuthenticationType == "BeAuthIdentity");
+            var user = _httpContext.User.Identities.FirstOrDefault(); //(p => p.AuthenticationType == "BeAuthIdentity");
             if (user == null) throw new NullReferenceException("No BeAuth valid identity provided.");
 
             return user;

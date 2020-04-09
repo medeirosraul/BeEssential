@@ -36,7 +36,9 @@ namespace Beehouse.Essentials.BeAuth.Factories
             var beAuthIdentity = IdentityIssuer.IssueFor(user);
 
             // Add identity
-            principal.AddIdentity(beAuthIdentity);
+            //principal.AddIdentity(beAuthIdentity);
+            var identity = (ClaimsIdentity) principal.Identity;
+            identity.AddClaims(beAuthIdentity.Claims);
 
             return principal;
         }
