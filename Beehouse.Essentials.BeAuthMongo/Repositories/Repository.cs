@@ -7,6 +7,7 @@ namespace Beehouse.Essentials.BeAuthMongo.Repositories
     {
         public Repository(Mongo.Context.MongoContext context) : base(context)
         {
+
         }
     }
 }

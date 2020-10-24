@@ -80,5 +80,15 @@ namespace Beehouse.Essentials.BeAuthMongo.Services
 
             return user;
         }
+
+        public override async Task<TIdentifiable> Update(TIdentifiable entity)
+        {
+            var old = await GetById(entity.Id);
+            if (old == null) throw new InvalidOperationException($"A entidade não existe no banco de dados com o ID: {entity.Id}.");
+
+            entity.Identity = _identity;
+
+            return await base.Update(entity);
+        }
     }
 }

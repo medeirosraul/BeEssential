@@ -19,7 +19,6 @@ namespace Beehouse.Essentials.BeAuth.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.Entity<Subscription>(b =>
             {
                 b.ToTable("subscriptions");

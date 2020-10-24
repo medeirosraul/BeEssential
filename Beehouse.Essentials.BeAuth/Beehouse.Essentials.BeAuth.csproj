@@ -1,5 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
@@ -9,10 +16,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.0-preview.2.20167.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0-preview.2.20159.4" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.0-preview.2.20167.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\BeehouseFramework\Beehouse.Essentials\Beehouse.Essentials.csproj" />
   </ItemGroup>
 
 </Project>
